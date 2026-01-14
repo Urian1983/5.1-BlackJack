@@ -4,9 +4,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
 class DeckTest {
+    private Deck deck;
 
     @BeforeEach
-    private Deck deck = new Deck();
+    void setUp(){
+        deck = new Deck();
+    }
+
 
     @Test
     void deck_should_have_52_cards() {

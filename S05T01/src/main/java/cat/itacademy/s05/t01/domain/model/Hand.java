@@ -5,12 +5,10 @@ import java.util.List;
 
 public class Hand {
 
-    Deck deck;
     final List<Card> cardsInHand = new ArrayList<>();
 
-    public void addCard(){
-        Card cardToDraw= deck.draw();
-        cardsInHand.add(cardToDraw);
+    public void addCard(Card card){
+        cardsInHand.add(card);
     }
 
     public List<Card> getCards(){
@@ -18,13 +16,24 @@ public class Hand {
     }
 
     public int calculateValue(){
-        return cardsInHand.stream()
-                .mapToInt(card -> card.getRank().getValue())
+
+        int total = cardsInHand.stream()
+                .mapToInt(card -> card.getRank().getMinValue())
                 .sum();
+
+        boolean hasAce = cardsInHand.stream()
+                .anyMatch(card -> card.getRank() == Rank.ACE);
+
+        if (hasAce && (total + 10 <= 21)) {
+            total += 10;
+        }
+
+        return total;
     }
 
     public boolean isBust(){
-
+        //temporary
+        return false;
     }
 
 }
