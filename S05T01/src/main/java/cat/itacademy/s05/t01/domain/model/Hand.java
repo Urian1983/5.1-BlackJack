@@ -24,7 +24,7 @@ public class Hand {
         boolean hasAce = cardsInHand.stream()
                 .anyMatch(card -> card.getRank() == Rank.ACE);
 
-        if (hasAce && (total + 10 <= 21)) {
+        if (hasAce && total + 10 <= 21) {
             total += 10;
         }
 
@@ -32,8 +32,7 @@ public class Hand {
     }
 
     public boolean isBust(){
-        //temporary
-        return false;
+        return calculateValue() > 21;
     }
 
 }

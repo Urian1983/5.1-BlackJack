@@ -51,4 +51,13 @@ class HandTest {
         // 11 + 1 + 9 = 21 (Solo un As puede valer 11)
         assertThat(hand.calculateValue()).isEqualTo(21);
     }
+
+    @Test
+    void shouldHandleThreeAces() {
+        hand.addCard(new Card(Rank.ACE, Suit.HEARTS));
+        hand.addCard(new Card(Rank.ACE, Suit.DIAMONDS));
+        hand.addCard(new Card(Rank.ACE, Suit.CLUBS));
+        // 11 + 1 + 1 = 13 (solo un As vale 11)
+        assertThat(hand.calculateValue()).isEqualTo(13);
+    }
 }
