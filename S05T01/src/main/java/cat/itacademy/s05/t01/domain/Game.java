@@ -2,7 +2,7 @@ package cat.itacademy.s05.t01.domain;
 
 import cat.itacademy.s05.t01.domain.model.Deck;
 import cat.itacademy.s05.t01.domain.model.Hand;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import cat.itacademy.s05.t01.domain.model.Dealer;
@@ -10,6 +10,7 @@ import cat.itacademy.s05.t01.domain.model.Player;
 
 import java.util.UUID;
 
+@Getter
 @Document(collection = "games")
 public class Game {
 
@@ -20,7 +21,7 @@ public class Game {
     private Dealer dealer;
     private Deck deck;
     private GameState state;
-    
+
     public Game(String playerName){
         this.deck = new Deck();
         this.player = new Player(playerName,new Hand());
