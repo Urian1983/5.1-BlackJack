@@ -1,7 +1,11 @@
 package cat.itacademy.s05.t01.domain.model;
 
+import lombok.Getter;
+
 public class Player {
+    @Getter
     private final String name;
+    @Getter
     private Hand hand;
     private boolean stay = false;
 
@@ -10,17 +14,8 @@ public class Player {
         this.hand = hand;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public void changeStay(){
         this.stay = !this.stay;
-    }
-
-
-    public Hand getHand() {
-        return hand;
     }
 
 }

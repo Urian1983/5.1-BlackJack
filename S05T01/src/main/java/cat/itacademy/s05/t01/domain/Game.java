@@ -1,20 +1,91 @@
 package cat.itacademy.s05.t01.domain;
 
+import cat.itacademy.s05.t01.domain.model.Deck;
+import cat.itacademy.s05.t01.domain.model.Hand;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import cat.itacademy.s05.t01.domain.model.Dealer;
+import cat.itacademy.s05.t01.domain.model.Player;
+
+import java.util.UUID;
+
+@Document(collection = "games")
 public class Game {
 
-    public void dealInitialCards(){
+    @Id
+    private String id = UUID.randomUUID().toString();
 
+    private Player player;
+    private Dealer dealer;
+    private Deck deck;
+    private GameState state;
+    
+    public Game(String playerName){
+        this.deck = new Deck();
+        this.player = new Player(playerName,new Hand());
+        this.dealer = new Dealer(new Hand());
+        this.state = GameState.IN_PROGRESS;
+
+        dealInitialCards();
+    }
+
+    public void dealInitialCards(){
+        deck.shuffle();
+
+        player.getHand().addCard(deck.draw());
+        dealer.getHand().addCard(deck.draw());
+        player.getHand().addCard(deck.draw());
+        dealer.getHand().addCard(deck.draw());
+
+        this.state = GameState.IN_PROGRESS;
     }
 
     public void playerHit(){
+        player.getHand().addCard(deck.draw());
+
+        if(player.getHand().isBust()){
+            this.state =GameState.PLAYER_BUST;
+        }
 
     }
 
     public void playerStand(){
+        player.changeStay();
+        playDealerTurn();
 
     }
 
     public void playDealerTurn(){
+        while(dealer.shouldDrawCard()){
+            dealer.getHand().addCard(deck.draw());
+        }
+
+        if(dealer.getHand().isBust()){
+            this.state = GameState.DEALER_BUST;
+        }
+
+        else {
+            resolveGame();
+        }
+
+    }
+
+    public void resolveGame(){
+        int playerPoints = player.getHand().calculateValue();
+        int dealerPoints = dealer.getHand().calculateValue();
+
+        if (playerPoints > dealerPoints){
+            this.state = GameState.PLAYER_WIN;
+        }
+
+        else if(playerPoints < dealerPoints){
+            this.state = GameState.DEALER_WIN;
+        }
+
+        else{
+            this.state = GameState.DRAW;
+        }
 
     }
 

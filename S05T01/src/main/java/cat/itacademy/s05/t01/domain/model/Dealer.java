@@ -2,10 +2,17 @@ package cat.itacademy.s05.t01.domain.model;
 
 public class Dealer extends Player{
 
-    public Dealer(String name, Hand hand) {
-        super(name, hand);
+    public Dealer(Hand hand) {
+        super("Dealer", hand);
     }
     public boolean shouldDrawCard(){
-        return getHand().calculateValue()< 17;
+        if(getHand().calculateValue()< 17)
+        {
+            return true;
+        }
+
+        else{
+            return false;
+        }
     }
 }
