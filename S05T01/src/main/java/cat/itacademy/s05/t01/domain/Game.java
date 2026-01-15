@@ -2,6 +2,7 @@ package cat.itacademy.s05.t01.domain;
 
 import cat.itacademy.s05.t01.domain.model.Deck;
 import cat.itacademy.s05.t01.domain.model.Hand;
+import cat.itacademy.s05.t01.exceptions.IlegalMoveException;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -43,6 +44,10 @@ public class Game {
     }
 
     public void playerHit(){
+        if (state != GameState.IN_PROGRESS) {
+            throw new IlegalMoveException("Cannot hit. The game is already over with state: " + state);
+        }
+
         player.getHand().addCard(deck.draw());
 
         if(player.getHand().isBust()){
@@ -52,6 +57,10 @@ public class Game {
     }
 
     public void playerStand(){
+        if (state != GameState.IN_PROGRESS) {
+            throw new IlegalMoveException("Cannot stand. The game is already over.");
+        }
+
         player.changeStay();
         playDealerTurn();
 
