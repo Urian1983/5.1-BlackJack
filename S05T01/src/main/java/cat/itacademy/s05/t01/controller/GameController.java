@@ -1,8 +1,10 @@
 package cat.itacademy.s05.t01.controller;
 
+
 import cat.itacademy.s05.t01.dto.GameResponseDTO;
 import cat.itacademy.s05.t01.dto.PlayerRankingDTO;
 import cat.itacademy.s05.t01.service.GameService;
+import cat.itacademy.s05.t01.service.RankingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,7 @@ import reactor.core.publisher.Mono;
 public class GameController {
 
     private final GameService gameService;
+    private final RankingService rankingService;
 
     @PostMapping("/new/{playerName}")
     @ResponseStatus(HttpStatus.CREATED) //201
@@ -28,15 +31,13 @@ public class GameController {
     }
 
     @PostMapping("/{id}/stand")
-        public Mono<GameResponseDTO> playStand (@PathVariable String id){
-            return gameService.playStand(id);
-        }
+    public Mono<GameResponseDTO> playStand (@PathVariable String id){
+        return gameService.playStand(id);
     }
 
     @GetMapping("/ranking")
     public Flux<PlayerRankingDTO> getRanking() {
-    return rankingService.getGlobalRanking();
+        return rankingService.getGlobalRanking();
+
+    }
 }
-
-
-
