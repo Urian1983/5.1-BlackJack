@@ -1,6 +1,5 @@
 package cat.itacademy.s05.t01.controller;
 
-
 import cat.itacademy.s05.t01.dto.GameResponseDTO;
 import cat.itacademy.s05.t01.dto.PlayerRankingDTO;
 import cat.itacademy.s05.t01.service.GameService;
