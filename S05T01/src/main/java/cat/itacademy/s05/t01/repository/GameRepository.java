@@ -1,6 +1,6 @@
 package cat.itacademy.s05.t01.repository;
 
-import cat.itacademy.s05.t01.domain.Game;
+import cat.itacademy.s05.t01.domain.mongoDB.Game;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Repository;
 

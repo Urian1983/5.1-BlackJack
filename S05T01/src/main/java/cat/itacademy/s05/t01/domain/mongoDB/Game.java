@@ -1,5 +1,6 @@
-package cat.itacademy.s05.t01.domain;
+package cat.itacademy.s05.t01.domain.mongoDB;
 
+import cat.itacademy.s05.t01.domain.GameState;
 import cat.itacademy.s05.t01.domain.model.Deck;
 import cat.itacademy.s05.t01.domain.model.Hand;
 import cat.itacademy.s05.t01.exceptions.IlegalMoveException;
