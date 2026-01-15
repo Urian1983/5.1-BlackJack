@@ -3,7 +3,6 @@ package cat.itacademy.s05.t01.domain;
 import cat.itacademy.s05.t01.domain.model.Card;
 import cat.itacademy.s05.t01.domain.model.Rank;
 import cat.itacademy.s05.t01.domain.model.Suit;
-import cat.itacademy.s05.t01.domain.mongoDB.Game;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

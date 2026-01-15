@@ -1,7 +1,7 @@
 package cat.itacademy.s05.t01.service;
 
+import cat.itacademy.s05.t01.domain.Game;
 import cat.itacademy.s05.t01.domain.GameState;
-import cat.itacademy.s05.t01.domain.mongoDB.Game;
 import cat.itacademy.s05.t01.dto.GameMapper;
 import cat.itacademy.s05.t01.dto.GameResponseDTO;
 import cat.itacademy.s05.t01.repository.GameRepository;
@@ -15,6 +15,8 @@ public class GameService {
 
     private final GameRepository gameRepository;
     private final RankingService rankingService;
+
+
     public Mono<GameResponseDTO> createGame (String playerName){
         Game newGame = new Game(playerName);
         return gameRepository.save(newGame)
@@ -38,5 +40,21 @@ public class GameService {
                     return gameRepository.save(game);
                 })
                 .map(GameMapper::toResponse);
+    }
+
+    private Mono<GameResponseDTO> saveAndCheckRanking(Game game) {
+        return gameRepository.save(game)
+                .flatMap(savedGame -> {
+                    // Verificamos los estados exactos que definiste en tu entidad
+                    boolean isVictory = savedGame.getState() == GameState.PLAYER_WIN
+                            || savedGame.getState() == GameState.DEALER_BUST;
+
+                    if (isVictory) {
+                        return rankingService.updateRanking(savedGame.getPlayer().getName())
+                                .thenReturn(GameMapper.toResponse(savedGame));
+                    }
+
+                    return Mono.just(GameMapper.toResponse(savedGame));
+                });
     }
 }

@@ -1,6 +1,6 @@
 package cat.itacademy.s05.t01.dto;
 
-import cat.itacademy.s05.t01.domain.mongoDB.Game;
+import cat.itacademy.s05.t01.domain.Game;
 import cat.itacademy.s05.t01.domain.model.Card;
 import cat.itacademy.s05.t01.domain.sql.PlayerRanking;
 

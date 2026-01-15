@@ -1,13 +1,11 @@
 package cat.itacademy.s05.t01.controller;
 
 import cat.itacademy.s05.t01.dto.GameResponseDTO;
-import cat.itacademy.s05.t01.dto.PlayerRankingDTO;
 import cat.itacademy.s05.t01.service.GameService;
 import cat.itacademy.s05.t01.service.RankingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -34,9 +32,4 @@ public class GameController {
         return gameService.playStand(id);
     }
 
-    @GetMapping("/ranking")
-    public Flux<PlayerRankingDTO> getRanking() {
-        return rankingService.getGlobalRanking();
-
-    }
 }
