@@ -14,11 +14,10 @@ import reactor.core.publisher.Mono;
 public class GameController {
 
     private final GameService gameService;
-    private final RankingService rankingService;
 
-    @PostMapping("/new/{playerName}")
+    @PostMapping("/new/")
     @ResponseStatus(HttpStatus.CREATED) //201
-    public Mono<GameResponseDTO> createGame(@PathVariable String playerName){
+    public Mono<GameResponseDTO> createGame(@RequestBody String playerName){
         return gameService.createGame(playerName);
     }
 
@@ -30,6 +29,11 @@ public class GameController {
     @PostMapping("/{id}/stand")
     public Mono<GameResponseDTO> playStand (@PathVariable String id){
         return gameService.playStand(id);
+    }
+
+    @DeleteMapping("/{id}/delete")
+    public Mono<GameResponseDTO> deleteGame(@PathVariable String id) {
+        return gameService.deleteGame(id);
     }
 
 }

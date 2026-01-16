@@ -1,4 +1,4 @@
-package cat.itacademy.s05.t01.domain.model.sql;
+package cat.itacademy.s05.t01.domain.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

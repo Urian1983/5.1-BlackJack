@@ -2,7 +2,7 @@ package cat.itacademy.s05.t01.dto;
 
 import cat.itacademy.s05.t01.domain.Game;
 import cat.itacademy.s05.t01.domain.model.Card;
-import cat.itacademy.s05.t01.domain.sql.PlayerRanking;
+import cat.itacademy.s05.t01.domain.model.PlayerRanking;
 
 import java.util.List;
 import java.util.stream.Collectors;

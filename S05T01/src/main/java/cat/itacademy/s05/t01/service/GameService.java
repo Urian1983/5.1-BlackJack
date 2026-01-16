@@ -17,19 +17,19 @@ public class GameService {
     private final RankingService rankingService;
 
 
-    public Mono<GameResponseDTO> createGame (String playerName){
+    public Mono<GameResponseDTO> createGame(String playerName) {
         Game newGame = new Game(playerName);
         return gameRepository.save(newGame)
                 .map(GameMapper::toResponse);
     }
 
-    public Mono<GameResponseDTO> playHit (String id) {
+    public Mono<GameResponseDTO> playHit(String id) {
         return gameRepository.findById(id)
                 .switchIfEmpty(Mono.error(new RuntimeException("Game not found")))
                 .flatMap(game -> {
-            game.playerHit();
-            return gameRepository.save(game);
-        }).map(GameMapper::toResponse);
+                    game.playerHit();
+                    return gameRepository.save(game);
+                }).map(GameMapper::toResponse);
     }
 
     public Mono<GameResponseDTO> playStand(String id) {
@@ -42,7 +42,7 @@ public class GameService {
                 .map(GameMapper::toResponse);
     }
 
-    private Mono<GameResponseDTO> saveAndCheckRanking(Game game) {
+    public Mono<GameResponseDTO> saveAndCheckRanking(Game game) {
         return gameRepository.save(game)
                 .flatMap(savedGame -> {
                     // Verificamos los estados exactos que definiste en tu entidad
@@ -57,4 +57,18 @@ public class GameService {
                     return Mono.just(GameMapper.toResponse(savedGame));
                 });
     }
+
+    public Mono<GameResponseDTO> deleteGame(String id) {
+        return gameRepository.findById(id)
+                .switchIfEmpty(Mono.error(new RuntimeException("Game not found with ID: " + id)))
+                .flatMap(game -> {
+                    GameResponseDTO response = GameMapper.toResponse(game);
+
+                    return gameRepository.delete(game)
+                            .thenReturn(response);
+                });
+
+    }
+
 }
+
