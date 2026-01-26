@@ -1,0 +1,21 @@
+services:
+  mysql-db:
+    image: mysql:8.4
+    container_name: mysql_S05T01
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
+      MYSQL_DATABASE: s05t01_db
+    volumes:
+      - ./db-data/mysql:/var/lib/mysql
+
+  mongo-db:
+    image: mongo:latest
+    container_name: mongo_S05T01
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: s05t01_mongo
+    volumes:
+      - ./db-data/mongo:/data/db
