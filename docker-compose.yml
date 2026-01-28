@@ -1,0 +1,38 @@
+services:
+  app:
+    build: .
+    container_name: blackjack-app
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_R2DBC_URL=r2dbc:mysql://mysql-db:3306/s05t01_db
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/s05t01_mongo
+    depends_on:
+      - mysql-db
+      - mongodb
+
+  mysql-db:
+    image: mysql:8.0
+    container_name: blackjack-mysql
+    environment:
+      MYSQL_DATABASE: s05t01_db
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./src/main/resources/schema.sql:/docker-entrypoint-initdb.d/init.sql
+
+  mongodb:
+    image: mongo:latest
+    container_name: blackjack-mongo
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: s05t01_mongo
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mysql_data:
+  mongo_data:

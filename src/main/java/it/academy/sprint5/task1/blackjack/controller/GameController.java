@@ -1,0 +1,67 @@
+package it.academy.sprint5.task1.blackjack.controller;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import it.academy.sprint5.task1.blackjack.dto.GameResponseDTO;
+import it.academy.sprint5.task1.blackjack.service.GameService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
+
+@RestController
+@RequestMapping("game")
+@RequiredArgsConstructor
+@Tag(name = "Game", description = "API for managing a Blackjack game (MongoDB)")
+public class GameController {
+
+    private final GameService gameService;
+
+    @PostMapping("/new")
+    @ResponseStatus(HttpStatus.CREATED) // 201
+    @Operation(summary = "Creates a new blackjack game")
+    @ApiResponse(
+            responseCode = "201",
+            description = "New gameplay created",
+            content = @Content(schema = @Schema(implementation = GameResponseDTO.class))
+    )
+    public Mono<GameResponseDTO> createGame(@RequestBody String playerName){
+        return gameService.createGame(playerName);
+    }
+
+    @PostMapping("/{id}/hit")
+    @Operation(summary = "Player requests a new card")
+    @ApiResponse(
+            responseCode = "200",
+            description = "Card dealt successfully",
+            content = @Content(schema = @Schema(implementation = GameResponseDTO.class))
+    )
+    public Mono<GameResponseDTO> playHit(@PathVariable String id) {
+        return gameService.playerHit(id);
+    }
+
+    @PostMapping("/{id}/stand")
+    @Operation(summary = "Player stands, dealer starts playing")
+    @ApiResponse(
+            responseCode = "200",
+            description = "Turn passed to the dealer",
+            content = @Content(schema = @Schema(implementation = GameResponseDTO.class))
+    )
+    public Mono<GameResponseDTO> playStand(@PathVariable String id){
+        return gameService.playerStand(id);
+    }
+
+    @DeleteMapping("/{id}/delete")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "Delete gameplay")
+    @ApiResponse(
+            responseCode = "204",
+            description = "Gameplay deleted successfully"
+    )
+    public Mono<Void> deleteGame(@PathVariable String id) {
+        return gameService.deleteGame(id);
+    }
+}
